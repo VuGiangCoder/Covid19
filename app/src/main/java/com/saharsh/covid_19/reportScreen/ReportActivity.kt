@@ -22,19 +22,19 @@ import kotlin.collections.ArrayList
 
 
 class ReportActivity : AppCompatActivity() {
-    private var totalRecovered: Long = 0
-    private var totalActive: Long = 0
-    private var totalDeaths: Long = 0
-    private var totalCases: Long = 0
-    private var totalNewCases: Long = 0
-    private var totalNewDeaths: Long = 0
+    private var totalRecovered: Long = 626994443
+    private var totalActive: Long = 649799405-626994443-6646043
+    private var totalDeaths: Long = 6646043
+    private var totalCases: Long = 649799405
+    private var totalNewCases: Long = 6554063
+    private var totalNewDeaths: Long = 13403
 
-    private var totalIndiansRecovered: Long = 0
-    private var totalIndiansActive: Long = 0
-    private var totalIndiansDeaths: Long = 0
-    private var totalIndiansCases: Long = 0
-    private var totalIndiansNewCases: Long = 0
-    private var totalIndiansNewDeaths: Long = 0
+    private var totalvietnamnsRecovered: Long = 10626524
+    private var totalvietnamnsActive: Long = 11573931-10626524-43196
+    private var totalvietnamnsDeaths: Long = 43196
+    private var totalvietnamnsCases: Long = 11573931
+    private var totalvietnamnsNewCases: Long = 2804
+    private var totalvietnamnsNewDeaths: Long = 3
     private var state = TYPE.FIRST
 
 
@@ -53,7 +53,7 @@ class ReportActivity : AppCompatActivity() {
             if(totalNewCases.toInt() == 0) {
                 tv_activeCasesNew.setTextColor(ContextCompat.getColor(this, R.color.dark_grey))
             }
-            tv_activeCasesNew.text = "(+".plus(getFormattedNumber(totalNewCases) + ")")
+            tv_activeCasesNew.text = "".plus(getFormattedNumber(totalNewCases) )
 
             tv_recoveredCases.text = getFormattedNumber(totalRecovered)
             tv_totalCases.text = getFormattedNumber(totalCases)
@@ -65,25 +65,25 @@ class ReportActivity : AppCompatActivity() {
             tv_deathsCasesNew.text = "(+".plus(getFormattedNumber(totalNewDeaths) + ")")
 
             setPieChart(totalActive, totalRecovered, totalDeaths, totalCases)
-        } else if (state == TYPE.INDIA) {
-            tv_activeCases.text = getFormattedNumber(totalIndiansActive)
+        } else if (state == TYPE.vietnam) {
+            tv_activeCases.text = getFormattedNumber(totalvietnamnsActive)
 
-            if(totalIndiansNewCases.toInt() == 0) {
+            if(totalvietnamnsNewCases.toInt() == 0) {
                 tv_activeCasesNew.setTextColor(ContextCompat.getColor(this, R.color.dark_grey))
             }
-            tv_activeCasesNew.text = "(+".plus(getFormattedNumber(totalIndiansNewCases) + ")")
+            tv_activeCasesNew.text = "(+".plus(getFormattedNumber(totalvietnamnsNewCases) + ")")
 
-            tv_recoveredCases.text = getFormattedNumber(totalIndiansRecovered)
-            tv_totalCases.text = getFormattedNumber(totalIndiansCases)
+            tv_recoveredCases.text = getFormattedNumber(totalvietnamnsRecovered)
+            tv_totalCases.text = getFormattedNumber(totalvietnamnsCases)
 
-            tv_deathsCases.text = getFormattedNumber(totalIndiansDeaths)
+            tv_deathsCases.text = getFormattedNumber(totalvietnamnsDeaths)
 
-            if(totalIndiansNewDeaths.toInt() == 0) {
+            if(totalvietnamnsNewDeaths.toInt() == 0) {
                 tv_deathsCasesNew.setTextColor(ContextCompat.getColor(this, R.color.dark_grey))
             }
-            tv_deathsCasesNew.text = "(+".plus(getFormattedNumber(totalIndiansNewDeaths) + ")")
+            tv_deathsCasesNew.text = "(+".plus(getFormattedNumber(totalvietnamnsNewDeaths) + ")")
 
-            setPieChart(totalIndiansActive, totalIndiansRecovered, totalIndiansDeaths, totalIndiansCases)
+            setPieChart(totalvietnamnsActive, totalvietnamnsRecovered, totalvietnamnsDeaths, totalvietnamnsCases)
         }
     }
 
@@ -98,8 +98,8 @@ class ReportActivity : AppCompatActivity() {
         }
 
         bt_india.setOnClickListener {
-            if(state != TYPE.INDIA) {
-                state = TYPE.INDIA
+            if(state != TYPE.vietnam) {
+                state = TYPE.vietnam
                 stateView(bt_india, bt_world)
                 init()
             }
@@ -114,18 +114,23 @@ class ReportActivity : AppCompatActivity() {
         if (state == TYPE.WORLD) {
             deselected.background = ContextCompat.getDrawable(this, R.drawable.right_curve_bg)
             deselected.backgroundTintList = null
-        } else if (state == TYPE.INDIA) {
+        } else if (state == TYPE.vietnam) {
             deselected.background = ContextCompat.getDrawable(this, R.drawable.left_curve_bg)
             deselected.backgroundTintList = null
         }
         deselected.setTextColor(ContextCompat.getColor(this, R.color.dark_grey))
     }
 
-    private fun setPieChart(totalActive: Long, totalRecovered: Long, totalDeaths: Long, totalCases: Long) {
+    private fun setPieChart(
+        totalActive: Long,
+        totalRecovered: Long,
+        totalDeaths: Long,
+        totalCases: Long
+    ) {
         val arrayList: ArrayList<PieEntry> = ArrayList()
-        arrayList.add(PieEntry(totalActive.toFloat(), "Active", 0))
-        arrayList.add(PieEntry(totalRecovered.toFloat(), "Recovered", 1))
-        arrayList.add(PieEntry(totalDeaths.toFloat(), "Deaths", 2))
+        arrayList.add(PieEntry(this.totalActive.toFloat(), "Active", 0))
+        arrayList.add(PieEntry(this.totalRecovered.toFloat(), "Recovered", 1))
+        arrayList.add(PieEntry(this.totalDeaths.toFloat(), "Deaths", 2))
 
         val dataSet = PieDataSet(arrayList, "Covid-19 Results")
 
@@ -135,9 +140,9 @@ class ReportActivity : AppCompatActivity() {
         val colorThird = ContextCompat.getColor(this, R.color.deaths)
 
         try {
-            val confirmPercentage = totalActive.toDouble() / totalCases.toDouble() * 100
-            val recoveredPercentage = totalRecovered.toDouble() / totalCases.toDouble() * 100
-            val deathsPercentage = totalDeaths.toDouble() / totalCases.toDouble() * 100
+            val confirmPercentage = this.totalActive.toDouble() / this.totalCases.toDouble() * 100
+            val recoveredPercentage = this.totalRecovered.toDouble() / this.totalCases.toDouble() * 100
+            val deathsPercentage = this.totalDeaths.toDouble() / this.totalCases.toDouble() * 100
 
             confirm_percentage.text = String.format("%.2f", confirmPercentage).plus("%")
             recovered_percentage.text = String.format("%.2f", recoveredPercentage).plus("%")
@@ -160,6 +165,7 @@ class ReportActivity : AppCompatActivity() {
         pieChart.animateXY(2000, 2000)
     }
 
+
     private fun setUpViewModel() {
         val countryListViewModel =
             ViewModelProviders.of(this@ReportActivity).get(CountryListViewModel::class.java)
@@ -169,35 +175,13 @@ class ReportActivity : AppCompatActivity() {
         countryListViewModel.responseLiveData.observe(
             this,
             Observer<CountryDataResponse> { result ->
-                run {
-                    if (!result.response.isNullOrEmpty()) {
-                        for (data in result.response) {
-                            if(data.country?.toLowerCase()?.trim().equals("vietnam")){
-                                totalIndiansRecovered += data.cases?.recovered ?: 0
-                                totalIndiansActive += data.cases?.active ?: 0
-                                totalIndiansDeaths += data.deaths?.total ?: 0
-                                totalIndiansCases += data.cases?.total ?: 0
-                                totalIndiansNewCases += data.cases?.new?.substring(1)?.toInt() ?: 0
-                                totalIndiansNewDeaths += data.deaths?.new?.substring(1)?.toInt() ?: 0
-                            }
-                            errorScreen.visibility = View.GONE
-                            totalRecovered += data.cases?.recovered ?: 0
-                            totalActive += data.cases?.active ?: 0
-                            totalDeaths += data.deaths?.total ?: 0
-                            totalCases += data.cases?.total ?: 0
-                            totalNewCases += data.cases?.new?.substring(1)?.toInt() ?: 0
-                            totalNewDeaths += data.deaths?.new?.substring(1)?.toInt() ?: 0
-                        }
-                    } else {
-                        errorScreen.visibility = View.VISIBLE
-                    }
-                }
-                totalRecovered /= 2
-                totalActive /= 2
-                totalDeaths /= 2
-                totalCases /= 2
-                totalNewCases /= 2
-                totalNewDeaths /= 2
+
+//                totalRecovered /= 2
+//                totalActive /= 2
+//                totalDeaths /= 2
+//                totalCases /= 2
+//                totalNewCases /= 2
+//                totalNewDeaths /= 2
 
                 maskLoader.visibility = View.GONE
                 statusLayout.visibility = View.VISIBLE
@@ -215,6 +199,6 @@ class ReportActivity : AppCompatActivity() {
     enum class TYPE {
         FIRST,
         WORLD,
-        INDIA
+        vietnam
     }
 }
